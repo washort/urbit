@@ -1,4 +1,4 @@
-::::::  ::::::::::::::::::::::::::::::::::::::::::::::::::::::
+!:::::  ::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::::::  ::::::    Preface                               ::::::
 ::::::  ::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ?>  ?=(@ .)                                             ::  atom subject
@@ -94,8 +94,15 @@
 ++  pint  ,[p=[p=@ q=@] q=[p=@ q=@]]                    ::
 ++  port  $:  p=axis                                    ::
               $=  q                                     ::
-              $%  [%& p=type]                           ::
-                  [%| p=axis q=(list ,[p=type q=foot])] ::
+              $%  [& p=type]                            ::
+                  [| p=axis q=(list ,[p=type q=foot])]  ::
+              ==                                        ::
+          ==                                            ::
+++  post  $:  p=axis                                    ::
+              $=  q                                     ::
+              $%  [0 p=type]                            ::
+                  [1 p=axis q=(list ,[p=type q=foot])]  ::
+                  [2 p=twin q=type]                     ::
               ==                                        ::
           ==                                            ::
 ++  prop  $:  p=axis                                    ::
@@ -3728,6 +3735,15 @@
     |  (roll q.q.pok =+([p=[p=*type q=*foot] q=`type`%void] |.((fork p.p q))))
   ==
 ::
+++  flee
+  |=  poy=post
+  ^-  port
+  ?-  -.q.poy
+    0  [p.poy %& p.q.poy]
+    1  [p.poy %| p.q.poy q.q.poy]
+    2  [(peg p.poy q.p.poy) %& r.p.poy]
+  ==
+::
 ++  foil
   ~/  %foil
   |=  pok=port
@@ -4711,7 +4727,7 @@
         [%wtgl *]   [%wtcl p.gen [%zpzp ~] q.gen]
         [%wtgr *]   [%wtcl p.gen q.gen [%zpzp ~]]
         [%wtkt *]   [%wtcl [%wtts [%axil %atom %$] p.gen] r.gen q.gen]
-        [%wtts *]   [%wtcn ~(bunt al p.gen) q.gen]
+        ::  [%wtts *]   [%wtcn ~(bunt al p.gen) q.gen]
         [%wthp *]
       |-
       ?@  q.gen
@@ -4770,6 +4786,8 @@
       %dunk   dunk
       %find   find
       %fink   fink
+      %fino   fino
+      %finq   finq
       %fire   fire
       %firm   firm
       %fish   fish
@@ -5319,18 +5337,18 @@
       [['.' ~] ['-' ~] ~ ~]
     [[%leaf (mesc (trip paz))] duck ~]
   ::
-  ++  find
-    ~/  %find
+  ++  fino
+    ~/  %fino
     |=  [dep=@ud way=?(%read %rite %both) cog=term]
     =+  gil=*(set type)
-    |-  ^-  [p=@ud q=(unit port)]
+    |-  ^-  [p=@ud q=(unit post)]
     ?+    sut  [dep ~]
         [%bull *]
       ?.  =(cog p.p.sut)
         [dep ~]
       ?.  ?=(0 dep)
         [(dec dep) ~]
-      [0 ~ q.p.sut %& r.p.sut]
+      [0 ~ 1 %2 p.sut q.sut]
     ::
         [%cell *]
       =+  taf=$(sut p.sut)
@@ -5345,7 +5363,7 @@
       =+  zem=(look cog q.r.q.sut)
       =>  ^+(. ?:(|(=(~ zem) =(0 dep)) . .(dep (dec dep), zem ~)))
       ?^  zem
-        [dep ~ 1 [%| (peg 2 p.u.zem) [[sut(p.q %gold) q.u.zem] ~]]]
+        [dep ~ 1 [%1 (peg 2 p.u.zem) [[sut(p.q %gold) q.u.zem] ~]]]
       =+  taf=$(sut p.sut)
       ?~  q.taf
         taf
@@ -5360,7 +5378,7 @@
       ?:  =(cog p.sut)
         ?.  ?=(0 dep)
           [(dec dep) ~]
-        [0 ~ 1 %& q.sut]
+        [0 ~ 1 %0 q.sut]
       [dep ~]
     ::
         [%fork *]
@@ -5373,22 +5391,12 @@
       ~|  %find-fork
       ?:  =(hax yor)
         hax
-      ?~  q.hax
-        ?~  q.yor
-          ?>(=(hax yor) hax)
-        ?>  =(0 p.hax)
-        ::  ?>((nest(sut %void) | (peek(sut p.sut) way p.u.q.yor)) yor)
-        !!
-      ?~  q.yor
-        ?>  =(0 p.yor)
-        ::  ?>((nest(sut %void) | (peek(sut q.sut) way p.u.q.hax)) hax)
-        !!
-      ?>  =(p.u.q.hax p.u.q.yor)
-      :-   0
+      ?>  &(?=(^ q.hax) ?=(^ q.yor) =(p.hax p.yor) =(p.u.q.hax p.u.q.yor))
+      :-   p.hax
       ?-    -.q.u.q.hax
-          &
+          0 
         ?-    -.q.u.q.yor
-            &  [~ p.u.q.hax %& (fork p.q.u.q.hax p.q.u.q.yor)]
+            &  [~ p.u.q.hax %0 (fork p.q.u.q.hax p.q.u.q.yor)]
             |  !!
         ==
       ::
@@ -5397,7 +5405,7 @@
             &  !!
             |
           ?>  =(p.q.u.q.yor p.q.u.q.hax)
-          [~ p.u.q.hax %| p.q.u.q.hax (weld q.q.u.q.hax q.q.u.q.yor)]
+          [~ p.u.q.hax %1 p.q.u.q.hax (weld q.q.u.q.hax q.q.u.q.yor)]
         ==
       ==
     ::
@@ -5407,6 +5415,11 @@
       $(gil (~(put in gil) sut), sut repo)
     ==
   ::
+  ++  find
+    ~/  %find
+    |=  [dep=@ud way=?(%read %rite %both) cog=term]
+    (flee (fino dep way cog))
+  ::
   ++  fink
     ~/  %fink
     |=  [dep=@ud way=?(%read %rite %both) cog=term]
@@ -5414,6 +5427,17 @@
     ::  ~!  (dunk 'type')
     ~!  (show [%c 'find-limb'] ?:(=(%$ cog) '$' [%a cog]))
     =+  hoq=(find dep way cog)
+    ?~  q.hoq
+      ~|(%find-none !!)
+    u.q.hoq
+  ::
+  ++  finq
+    ~/  %fink
+    |=  [dep=@ud way=?(%read %rite %both) cog=term]
+    ^-  post
+    ::  ~!  (dunk 'type')
+    ~!  (show [%c 'find-limb'] ?:(=(%$ cog) '$' [%a cog]))
+    =+  hoq=(fino dep way cog)
     ?~  q.hoq
       ~|(%find-none !!)
     u.q.hoq
@@ -5603,8 +5627,6 @@
   ++  chip
     ~/  %chip
     |=  [way=? gen=twig]  ^-  type
-    ?:  ?=([%wtcn *] gen)
-      (cull way p:(seek %read ~(rake ap q.gen)) (play p.gen))
     ?:  ?=([%wtts *] gen)
       (cull way p:(seek %read ~(rake ap q.gen)) (play ~(bunt al p.gen)))
     ?:  ?&(way ?=([%wtpm *] gen))
@@ -5736,9 +5758,6 @@
       =+  hiq=$(sut fex, gen q.gen)
       =+  ran=$(sut wux, gen r.gen)
       [(fork p.hiq p.ran) (cond duy q.hiq q.ran)]
-    ::
-        [%wtcn *]
-      [(nice bean) (fish(sut (play p.gen)) (cove q:$(gen q.gen, gol %noun)))]
     ::
         [%wtts *]
       :-  (nice bean)
@@ -5897,15 +5916,6 @@
             ~|(%mull-bonk-c !!)
           $(sut p.wux, dox q.wux, gen r.gen)
       [(nice (fork p.hiq p.ran)) (fork q.hiq q.ran)]
-    ::
-        [%wtcn *]
-      =+  waz=[p=(play p.gen) q=(play(sut dox) p.gen)]
-      =+  ^=  syx  :-  p=(cove q:(mint %noun q.gen))
-                   q=(cove q:(mint(sut dox) %noun q.gen))
-      =+  pov=[p=(fish(sut p.waz) p.syx) q=(fish(sut q.waz) q.syx)]
-      ?.  &(=(p.syx q.syx) =(p.pov q.pov))
-        ~|(%mull-bonk-a !!)
-      (both bean)
     ::
         [%wtts *]
       =+  nob=~(bunt al p.gen)
@@ -6222,7 +6232,6 @@
                  %+  fork
                    ?:(=(%void fex) %void $(sut fex, gen q.gen))
                  ?:(=(%void wux) %void $(sut wux, gen r.gen))
-      [%wtcn *]  bean
       [%wtts *]  bean
       [%zpcb *]  ~!((show %o p.gen) $(gen q.gen))
       [%zpcm *]  (play p.gen)
