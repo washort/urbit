@@ -5393,20 +5393,21 @@
         hax
       ?>  &(?=(^ q.hax) ?=(^ q.yor) =(p.hax p.yor) =(p.u.q.hax p.u.q.yor))
       :-   p.hax
-      ?-    -.q.u.q.hax
-          0 
-        ?-    -.q.u.q.yor
-            &  [~ p.u.q.hax %0 (fork p.q.u.q.hax p.q.u.q.yor)]
-            |  !!
-        ==
-      ::
-          |
-        ?-    -.q.u.q.yor
-            &  !!
-            |
-          ?>  =(p.q.u.q.yor p.q.u.q.hax)
-          [~ p.u.q.hax %1 p.q.u.q.hax (weld q.q.u.q.hax q.q.u.q.yor)]
-        ==
+      ?-  -.q.u.q.hax
+        0  ?>  ?=(0 -.q.u.q.yor)
+           [~ p.u.q.hax %0 (fork p.q.u.q.hax p.q.u.q.yor)]
+        1  ?>  &(?=(1 -.q.u.q.yor) =(p.q.u.q.yor p.q.u.q.hax))
+           [~ p.u.q.hax %1 p.q.u.q.hax (weld q.q.u.q.hax q.q.u.q.yor)]
+        2  ?>  ?&  ?=(2 -.q.u.q.yor) 
+                   =(p.p.q.u.q.hax p.p.q.u.q.yor)
+                   =(q.p.q.u.q.hax q.p.q.u.q.yor)
+               ==
+           :*  ~
+               p.u.q.hax
+               %2
+               [p.p.q.u.q.hax q.p.q.u.q.hax (fork r.p.q.u.q.hax r.p.q.u.q.yor)]
+               (fork q.q.u.q.hax q.q.u.q.yor)
+           ==
       ==
     ::
         [%hold *]
