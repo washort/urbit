@@ -144,7 +144,7 @@
   (show (rend "" (trip (numb her est)) mes))
 ::
 ++  said                                                ::  server message
-  |=  [her=@p duz=(list zong)]
+  |=  [her=@p wen=@da duz=(list zong)]
   ^+  +>
   ?~  duz  +>
   %=    $
@@ -152,7 +152,10 @@
       +>
     %-  show
     ?-  -.i.duz
-      %all  (rend ?:(=(%white p.i.duz) "& " "| ") (trip q.q.i.duz) r.i.duz)
+      %all
+         =+  tim=t:(yore wen)
+         =+  line="[{(scow %ud h.tim)}.{(scow %ud m.tim)}] {(trip q.q.i.duz)}"
+        (rend ?:(=(%white p.i.duz) "& " "| ") line r.i.duz)
       %new  [%leaf "{(trip q.p.i.duz)} is in the building"]
       %out  [%leaf "{(trip q.p.i.duz)} has left the building"]
       %who  [%rose [", " "" ""] (turn p.i.duz |=(a=user [%leaf (trip q.a)]))]
@@ -161,6 +164,7 @@
 ::
 ++  shew  |=(tax=(list tank) +>(giz [[%lo tax] giz]))   ::  print to screen
 ++  show  |=(tan=tank +>(giz [[%la tan] giz]))          ::  print to screen
+
 ++  take                                                ::  alarm event
   |-  ^+  +
   =.  wak  (add ~m1 (max wak est))
@@ -192,9 +196,9 @@
   =.  est  now
   =<  abet
   ?+  -.pax  +>
-    %oy  ?>(?=(%lq -.nut) (said p.nut ((hard (list zong)) r.nut)))
+    %oy  ?>(?=(%lq -.nut) (said p.nut now ((hard (list zong)) r.nut)))
     %re  ?>(?=(%ow -.nut) (nice ~ p.nut))
-    %ra  ?>  &(?=(%ow -.nut) ?=(^ t.pax)) 
+    %ra  ?>  &(?=(%ow -.nut) ?=(^ t.pax))
          (nice [~ (need (slaw %p i.t.pax))] p.nut)
     %up  ?>(?=(%up -.nut) (toke p.nut))
     %wa  ?>(?=(%wa -.nut) take)
