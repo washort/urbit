@@ -417,8 +417,9 @@
   ?:  =(~ t.myn)  (trip i.myn)
   (weld (trip i.myn) `tape`['/' $(myn t.myn)])
 ++  poja
-  |=  jas=tape
-  =<  (scan jas valu)
+  |=  jas=@t
+  ^-  (unit jval)
+  =<  (rush jas valu)
   |%
     ++  valu                                               :: JSON value
       %+  knee  *jval  |.  ~+
@@ -508,6 +509,7 @@
 ::
 ++  pojo                                                ::  print json
   |=  val=jval
+  !:
   ^-  tape
   ?~  val  "null"
   ?-    -.val
@@ -523,7 +525,7 @@
  ::
       %b  ?:(p.val "true" "false")
       %n  (trip p.val)
-      %s  :(weld "\"" (trip p.val) "\"")
+      %s  :(weld "\"" (reel (turn (trip p.val) jesc) =|([p=tape q=tape] |.((weld p q)))) "\"")
       %o
     ;:  weld
       "\{"
@@ -539,6 +541,13 @@
       "}"
     ==
   ==
+++  jesc
+  |=  a=@
+    ?+  a  [a ~]
+      10
+    "\\n"
+    ==
+
 ::
 ++  tact                                                ::  tape to octstream
   |=  tep=tape  ^-  octs
